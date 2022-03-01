@@ -24,7 +24,7 @@ cd SOD100K/CSNet
 
 Download the following datasets and unzip them into `dataset` folder.
 Note that for each dataset, put images and GT into the folder 'images' and 'GT'.
-Example:
+Example:1
 ```
 SOD100K/CSNet/datasets/sal/DUTS-TE/GT
 SOD100K/CSNet/datasets/sal/DUTS-TE/images
