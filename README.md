@@ -1,4 +1,4 @@
-# SOD100K
+# RGBD-SOD
 The official repo of the TPAMI 2021 paper [A Highly Efficient Model to Study the Semantics of Salient Object Detection](https://mftp.mmcheng.net/Papers/21PAMI-Sal100K.pdf) and ECCV 2020 paper [Highly Efficient Salient Object Detection with 100K Parameters](http://mftp.mmcheng.net/Papers/20EccvSal100k.pdf).
 
 Visit our project page for more details and dicussion: https://mmcheng.net/sod100k/
