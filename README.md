@@ -1,2 +1,0 @@
-# RGBD-SOD
-Study DL.
