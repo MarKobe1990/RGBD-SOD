@@ -153,3 +153,4 @@ cython_debug/
 /datasets/
 /results/
 /data/
+/snapshots/
