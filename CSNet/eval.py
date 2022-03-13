@@ -10,21 +10,23 @@ parser.add_argument('--method',
 parser.add_argument('--epoch', type=int, default=75)
 parser.add_argument('--traverse', type=int, default=1)
 parser.add_argument('--range', type=str, default='110,165')
-parser.add_argument('--gt_dir', type=str, default='/media/da/Datasets/sal/')
+parser.add_argument('--gt_dir', type=str, default='/datasets/sal/ECSSD/GT/')
 parser.add_argument(
     '--save_dir',
     type=str,
-    default='CSNet/results/')
+    default='../CSNet/results/')
 args = parser.parse_args()
 
 modelprefix = args.method
 
 outputs = ['DUTS-TE', 'ECSSD']
+
+if not os.path.exists(join(args.save_dir, modelprefix)):
+    os.makedirs(join(args.save_dir, modelprefix), exist_ok=True)
+
 LOG_FOUT = open(
     join(args.save_dir, modelprefix,
-         "FmeasureResults_" + str(args.method) + '_' + str(outputs) + '.txt'),
-    'a')
-
+         "FmeasureResults_" + str(args.method) + '_' + str(outputs) + '.txt'), 'a+')
 
 def log_string(out_str):
     out_str = str(out_str)

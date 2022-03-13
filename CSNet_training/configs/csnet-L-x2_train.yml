@@ -26,7 +26,7 @@ LOSS:
 DATA:
   DIR: "datasets/sal/DUTS-TR"
   PRETRAIN: ''
-  BATCH_SIZE: 24
+  BATCH_SIZE: 10
   WORKERS: 8
   IMAGE_H: 224
   IMAGE_W: 224

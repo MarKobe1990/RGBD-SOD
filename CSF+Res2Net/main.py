@@ -50,7 +50,7 @@ def main(config):
 
 if __name__ == '__main__':
 
-    res2net_path = '/home/shgao/.cache/torch/checkpoints/res2net50_v1b_26w_4s-3cf99910.pth'
+    res2net_path = 'checkpoints/res2net50_v1b_26w_4s-3cf99910.pth'
     parser = argparse.ArgumentParser()
 
     # Hyper-parameters

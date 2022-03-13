@@ -20,7 +20,7 @@ VAL:
 
 TEST:
   DATASET_PATH: 'datasets/sal'
-  DATASETS: ['ECSSD']
+  DATASETS: ['ECSSD', ]
   INTERVAL: 5
   ENABLE: False
   IMAGE_H: 224

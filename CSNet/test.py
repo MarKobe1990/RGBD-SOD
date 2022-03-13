@@ -2,7 +2,7 @@ import os
 import math
 import argparse
 import importlib
-
+import time
 import numpy as np
 import torch
 import skimage
@@ -54,11 +54,16 @@ def main():
     else:
         print(this_checkpoint, "Not found.")
 
+def process_bar(percent, start_str='', end_str='', total_length=0):
+    bar = ''.join('=' * int(percent * total_length)) + ''
+    bar = '\r' + start_str + bar.ljust(total_length) + ' {:0>4.1f}%|'.format(percent*100) + end_str
+    print(bar, end='', flush=True)
 
 def test(model, test_datasets, epoch):
     model.eval()
     print("Start testing.")
     for dataset in test_datasets:
+        start = time.time()
         sal_save_dir = os.path.join(cfg.DATA.SAVEDIR, cfg.TASK,
                                     dataset + '_' + str(epoch))
         os.makedirs(sal_save_dir, exist_ok=True)
@@ -97,7 +102,9 @@ def test(model, test_datasets, epoch):
                 save_file = os.path.join(sal_save_dir, img_name[0:-4] + '.png')
                 io.imsave(save_file, predict)
                 count += 1
-        print('Dataset: {}, {} images'.format(dataset, len(img_list)))
+                process_bar(count / len(img_list), start_str='Dataset:' + dataset + ':', end_str='100%, imgs_total:' + str(len(img_list)), total_length=30)
+        end = time.time()
+        print('\nDataset- {}, {} images, {} images/s'.format(dataset, len(img_list), (len(img_list)/(end-start)).__round__(2)))
 
 
 def eval(method, epoch):
