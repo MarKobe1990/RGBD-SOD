@@ -5,7 +5,10 @@
     <content url="file://$MODULE_DIR$/CSNet" />
     <content url="file://$MODULE_DIR$/CSNet_training" />
     <content url="file://$MODULE_DIR$/MobileSal" />
-    <content url="file://$MODULE_DIR$/MyRGBD-SOD" />
+    <content url="file://$MODULE_DIR$/MyRGBD-SOD">
+      <sourceFolder url="file://$MODULE_DIR$/MyRGBD-SOD" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MyRGBD-SOD/data" type="java-resource" />
+    </content>
     <orderEntry type="jdk" jdkName="Python 3.6 (pytorch3.6)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

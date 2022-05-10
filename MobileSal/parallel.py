@@ -98,7 +98,7 @@ class DataParallelModel(DataParallel):
     def replicate(self, module, device_ids):
         modules = super(DataParallelModel, self).replicate(module, device_ids)
         return modules
-getMetric
+
 
 class DataParallelCriterion(DataParallel):
     """
