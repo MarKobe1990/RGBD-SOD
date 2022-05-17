@@ -16,7 +16,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 
-    
+# cpu或者gpu
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def get_mean_set(args):
     # for DUTS training dataset
@@ -108,6 +109,8 @@ def main(args, data_list):
 
     if args.gpu:
         model = model.cuda()
+    else:
+        model = model.to(device)
 
     # set to evaluation mode
     model.eval()

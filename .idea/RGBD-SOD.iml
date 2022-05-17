@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/CSF+Res2Net" />
-    <content url="file://$MODULE_DIR$/CSNet" />
-    <content url="file://$MODULE_DIR$/CSNet_training" />
-    <content url="file://$MODULE_DIR$/MobileSal" />
+    <content url="file://$MODULE_DIR$/CSF+Res2Net">
+      <sourceFolder url="file://$MODULE_DIR$/CSF+Res2Net" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/CSNet">
+      <sourceFolder url="file://$MODULE_DIR$/CSNet" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/CSNet_training">
+      <sourceFolder url="file://$MODULE_DIR$/CSNet_training" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/MobileSal">
+      <sourceFolder url="file://$MODULE_DIR$/MobileSal" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/MyRGBD-SOD">
       <sourceFolder url="file://$MODULE_DIR$/MyRGBD-SOD" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MyRGBD-SOD/data" type="java-resource" />

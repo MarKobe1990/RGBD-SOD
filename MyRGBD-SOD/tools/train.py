@@ -21,7 +21,8 @@ from argparse import ArgumentParser
 
 def build_ssim_loss(window_size=11):
     return SSIM(window_size=window_size)
-
+# cpu或者gpu
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def BCEDiceLoss(inputs, targets):
     #print(inputs.shape, targets.shape)
@@ -72,6 +73,13 @@ def val(args, val_loader, model, criterion):
             target = target.cuda()
             if args.depth:
                 depth = depth.cuda()
+            else:
+                depth = depth.to(device)
+        else:
+            input = input.to(device)
+            target = target.to(device)
+            if args.depth:
+                depth = depth.to(device)
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target).float()
         if args.depth:
@@ -125,6 +133,13 @@ def train(args, train_loader, model, criterion, optimizer, epoch, max_batches, c
             target = target.cuda()
             if args.depth:
                 depth = depth.cuda()
+            else:
+                depth = depth.to(device)
+        else:
+            input = input.to(device)
+            target = target.to(device)
+            if args.depth:
+                depth = depth.to(device)
         
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target).float()
@@ -190,6 +205,8 @@ def trainValidateSegmentation(args):
 
     if args.onGPU:
         model = model.cuda()
+    else:
+        model = model.to(device)
 
     total_params = sum([np.prod(p.size()) for p in model.parameters()])
     depthpred_params = sum([np.prod(p.size()) for p in model.idr.parameters()])
