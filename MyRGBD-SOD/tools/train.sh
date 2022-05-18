@@ -5,7 +5,7 @@ SAVE_PATH=$SAVE_PREFIX
 
 CUDA_VISIBLE_DEVICES=0 python3 tools/train.py --file_root ./data/ \
                                          --max_epochs 60 \
-                                         --num_workers 2 \
+                                         --num_workers 6 \
                                          --batch_size 10 \
                                          --savedir $SAVE_PATH \
                                          --depth 1 \
