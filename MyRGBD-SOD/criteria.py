@@ -6,6 +6,7 @@ import numpy as np
 # cpu或者gpu
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+
 def gaussian(window_size, sigma):
     gauss = torch.Tensor([exp(-(x - window_size//2)**2/float(2*sigma**2)) for x in range(window_size)])
     return gauss/gauss.sum()

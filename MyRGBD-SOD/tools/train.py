@@ -371,6 +371,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print('Called with args:')
     print(args)
-    torch.set_num_threads(args.num_workers)
 
     trainValidateSegmentation(args)

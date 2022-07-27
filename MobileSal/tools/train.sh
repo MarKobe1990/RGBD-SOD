@@ -13,6 +13,7 @@ CUDA_VISIBLE_DEVICES=0 python3 tools/train.py --file_root ./data/ \
                                          --lr 1e-4 \
                                          --inWidth 320 \
                                          --inHeight 320 \
-                                         --ms 0
+                                         --ms 0 \
+                                         --onGPU true
                                          
 

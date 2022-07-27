@@ -25,7 +25,7 @@ class ConvBNReLU(nn.Sequential):
             nn.ReLU6(inplace=True)
         )
 
-
+# 先升维再降维的逆转残差模块
 class InvertedResidual(nn.Module):
     def __init__(self, inp, oup, stride, expand_ratio, dilation=1):
         super(InvertedResidual, self).__init__()
@@ -33,6 +33,7 @@ class InvertedResidual(nn.Module):
         assert stride in [1, 2]
 
         hidden_dim = int(round(inp * expand_ratio))
+        # 是否使用残差连接
         self.use_res_connect = self.stride == 1 and inp == oup
 
         layers = []
@@ -46,6 +47,7 @@ class InvertedResidual(nn.Module):
             nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
             nn.BatchNorm2d(oup),
         ])
+        # layers解包为元组
         self.conv = nn.Sequential(*layers)
 
     def forward(self, x):
@@ -111,7 +113,7 @@ class MobileNetV2(nn.Module):
                 res.append(x)
         return res
 
-
+# 使用在imageNet上预训练好的参数
 def mobilenet_v2(pretrained=True, progress=True, **kwargs):
     model = MobileNetV2(**kwargs)
     if pretrained:
