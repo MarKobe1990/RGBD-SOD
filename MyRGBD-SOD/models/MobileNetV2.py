@@ -10,7 +10,7 @@ except ModuleNotFoundError:
 
 
 model_urls = {
-    'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth',
+    'shuffleNet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth',
 }
 
 
@@ -65,6 +65,7 @@ class MobileNetV2(nn.Module):
         last_channel = 1280
         inverted_residual_setting = [
             # t, c, n, s, d
+            # t=expansion rate , c=卷积核个数， n=重复次数，s=首个模块的步长，d=膨胀卷积步长
             [1, 16, 1, 1, 1],
             [6, 24, 2, 2, 1],
             [6, 32, 3, 2, 1],

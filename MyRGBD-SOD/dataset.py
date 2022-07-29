@@ -5,9 +5,9 @@ import torch.nn.functional as F
 import random
 
 class Dataset(torch.utils.data.Dataset):
-    '''
+    """
     Class to load the dataset
-    '''
+    """
     def __init__(self, dataset, file_root='data/', transform=None, use_depth=False, depth_postfix="_depth.png"):
         """
         dataset: dataset name, e.g. NJU2K_NLPR_train

@@ -33,6 +33,7 @@ class InvertedResidual(nn.Module):
         assert stride in [1, 2]
 
         hidden_dim = int(round(inp * expand_ratio))
+        # 使用残差连接
         self.use_res_connect = self.stride == 1 and inp == oup
 
         layers = []
@@ -58,7 +59,7 @@ class InvertedResidual(nn.Module):
 class MobileNetV2(nn.Module):
     def __init__(self, pretrained=None, num_classes=1000, width_mult=1.0):
         super(MobileNetV2, self).__init__()
-        block = InvertedResidual
+        ir_block = InvertedResidual
         input_channel = 32
         last_channel = 1280
         inverted_residual_setting = [
@@ -82,7 +83,7 @@ class MobileNetV2(nn.Module):
             for i in range(n):
                 stride = s if i == 0 else 1
                 dilation = d if i == 0 else 1
-                features.append(block(input_channel, output_channel, stride, expand_ratio=t, dilation=d))
+                features.append(ir_block(input_channel, output_channel, stride, expand_ratio=t, dilation=d))
                 input_channel = output_channel
         # building last several layers
         features.append(ConvBNReLU(input_channel, self.last_channel, kernel_size=1))

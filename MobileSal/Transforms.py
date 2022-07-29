@@ -4,10 +4,12 @@ import random
 import cv2
 import torch.nn.functional as F
 
+
 class Scale(object):
     """
     Resize the given image to a fixed scale
     """
+
     def __init__(self, wi, he):
         '''
         :param wi: width after resizing
@@ -17,7 +19,6 @@ class Scale(object):
         self.h = he
 
     # modified from torchvision to add support for max size
-
 
     def __call__(self, img, label, depth=None):
         '''
@@ -72,11 +73,11 @@ class Resize(object):
 
     def __call__(self, image, label, depth=None):
         size = self.get_size(image.shape[:2])
-        #print("origin", image.shape)
+        # print("origin", image.shape)
         image = cv2.resize(image, size)
-        #print("resized", image.shape)
-        #print('*'*20)
-        #I confirm that the output size is right, not reversed
+        # print("resized", image.shape)
+        # print('*'*20)
+        # I confirm that the output size is right, not reversed
         label = cv2.resize(label, size, interpolation=cv2.INTER_NEAREST)
         return (image, label)
 
@@ -85,6 +86,7 @@ class RandomCropResize(object):
     """
     Randomly crop and resize the given image with a probability of 0.5
     """
+
     def __init__(self, crop_area):
         '''
         :param crop_area: area to be cropped (this is the max value and we select between 0 and crop area
@@ -98,14 +100,14 @@ class RandomCropResize(object):
             x1 = random.randint(0, self.ch)
             y1 = random.randint(0, self.cw)
 
-            img_crop = img[y1:h-y1, x1:w-x1]
-            label_crop = label[y1:h-y1, x1:w-x1]
+            img_crop = img[y1:h - y1, x1:w - x1]
+            label_crop = label[y1:h - y1, x1:w - x1]
 
             img_crop = cv2.resize(img_crop, (w, h))
             label_crop = cv2.resize(label_crop, (w, h), interpolation=cv2.INTER_NEAREST)
 
             if depth is not None:
-                depth_crop = depth[y1:h-y1, x1:w-x1]
+                depth_crop = depth[y1:h - y1, x1:w - x1]
                 depth_crop = cv2.resize(depth_crop, (w, h))
             else:
                 depth_crop = None
@@ -113,22 +115,25 @@ class RandomCropResize(object):
         else:
             return [img, label, depth]
 
+
 class RandomFlip(object):
     """
     Randomly flip the given Image with a probability of 0.5
     """
+
     def __call__(self, image, label, depth=None):
         if random.random() < 0.5:
-            x1 = 0 #random.randint(0, 1) # if you want to do vertical flip, uncomment this line
+            x1 = 0  # random.randint(0, 1) # if you want to do vertical flip, uncomment this line
             if x1 == 0:
-                image = cv2.flip(image, 0) # horizontal flip
-                label = cv2.flip(label, 0) # horizontal flip
+                image = cv2.flip(image, 0)  # horizontal flip
+                label = cv2.flip(label, 0)  # horizontal flip
                 depth = cv2.flip(depth, 0) if depth is not None else None
             else:
-                image = cv2.flip(image, 1) # veritcal flip
-                label = cv2.flip(label, 1) # veritcal flip
+                image = cv2.flip(image, 1)  # veritcal flip
+                label = cv2.flip(label, 1)  # veritcal flip
                 depth = cv2.flip(depth, 1) if depth is not None else None
         return [image, label, depth]
+
 
 class Normalize(object):
     """
@@ -136,6 +141,7 @@ class Normalize(object):
     will normalize each channel of the torch.*Tensor, i.e.
     channel = (channel - mean) / std
     """
+
     def __init__(self, mean, std):
         '''
         :param mean: global mean computed from dataset
@@ -146,21 +152,21 @@ class Normalize(object):
         self.depth_mean = [0.5]
         self.depth_std = [0.5]
 
-
     def __call__(self, image, label, depth=None):
         image = image.astype(np.float32)
         image = image / 255
         label = label / 255
         for i in range(3):
-            image[:,:,i] -= self.mean[i]
+            image[:, :, i] -= self.mean[i]
         for i in range(3):
-            image[:,:,i] /= self.std[i]
+            image[:, :, i] /= self.std[i]
 
         if depth is not None:
             depth = depth / 255
             depth -= self.depth_mean
             depth /= self.depth_std
         return [image, label, depth]
+
 
 class GaussianNoise(object):
     def __init__(self, std=0.05):
@@ -175,10 +181,12 @@ class GaussianNoise(object):
         image = image + noise.astype(np.float32)
         return [image, label, depth]
 
+
 class ToTensor(object):
-    '''
+    """
     This class converts the data to tensor so that it can be processed by PyTorch
-    '''
+    """
+
     def __init__(self, scale=1):
         '''
         :param scale: set this parameter according to the output scale
@@ -189,19 +197,18 @@ class ToTensor(object):
         if self.scale != 1:
             h, w = label.shape[:2]
             image = cv2.resize(image, (int(w), int(h)))
-            label = cv2.resize(label, (int(w/self.scale), int(h/self.scale)), \
-                interpolation=cv2.INTER_NEAREST)
+            label = cv2.resize(label, (int(w / self.scale), int(h / self.scale)), interpolation=cv2.INTER_NEAREST)
             depth = cv2.resize(image, (int(w), int(h))) if depth is not None else None
-        image = image[:,:, ::-1].copy() # .copy() is to solve "torch does not support negative index"
+        image = image[:, :, ::-1].copy()  # .copy() is to solve "torch does not support negative index"
         image = image.transpose((2, 0, 1))
         image_tensor = torch.from_numpy(image)
         # TODO: here, we add unsqueeze to satisfy the condition that
         # adjust_size in DataSet.py should input 4D tensor
-        label_tensor =  torch.LongTensor(np.array(label, dtype=np.int)).unsqueeze(dim=0)
+        label_tensor = torch.LongTensor.unsqueeze(dim=0)
         if depth is not None:
             depth_tensor = torch.from_numpy(depth).unsqueeze(dim=0).float()
         else:
-            depth_tensor = torch.rand(1,10,10).float()
+            depth_tensor = torch.rand(1, 10, 10).float()
 
         return [image_tensor, label_tensor, depth_tensor]
 
@@ -210,6 +217,7 @@ class Compose(object):
     """
     Composes several transforms together.
     """
+
     def __init__(self, transforms):
         self.transforms = transforms
 
